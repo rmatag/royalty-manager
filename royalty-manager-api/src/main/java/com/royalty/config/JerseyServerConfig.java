@@ -1,9 +1,10 @@
-package com.royalty;
+package com.royalty.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.Filter;
@@ -19,12 +20,12 @@ import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 
 
-@Component
+@Configuration
 public class JerseyServerConfig extends ResourceConfig {
 
     @Autowired
     public JerseyServerConfig(ObjectMapper objectMapper) {
-        packages("com.royalty.resource");
+        packages("com.royalty");
         register(new ObjectMapperContextResolver(objectMapper));
     }
 
