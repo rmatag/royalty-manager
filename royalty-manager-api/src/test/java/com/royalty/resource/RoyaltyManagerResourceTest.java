@@ -114,7 +114,7 @@ public class RoyaltyManagerResourceTest {
     }
 
     @Test
-    public void getRoyatyPaymentByRightOwnerId() {
+    public void getRoyaltyPaymentByRightOwnerId() {
         String rightOwnerId = "rightOwner1";
         PaymentStudioDTO expectedPayments = givenPaymentsByRightOwner(rightOwnerId);
         when(royaltyServiceMock.getRoyaltyPayments(rightOwnerId)).thenReturn(expectedPayments);

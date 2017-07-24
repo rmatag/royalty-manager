@@ -3,6 +3,7 @@ package com.royalty.service;
 import com.royalty.dao.PaymentDAO;
 import com.royalty.dao.StudioDAO;
 import com.royalty.dao.ViewingDAO;
+import com.royalty.dto.PaymentDTO;
 import com.royalty.dto.PaymentStudioDTO;
 import com.royalty.dto.StudioDTO;
 import com.royalty.exceptions.GUIDNotFoundException;
@@ -27,6 +28,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -100,6 +102,24 @@ public class RoyaltyServiceTest {
 
     @Test
     public void getRoyaltyPayments() {
+        List<PaymentDTO> expectedPayments = givenPaymentDTOs();
+        List<Payment> payments = givenPayments();
+
+        when(paymentDAOMock.getGroupedRoyaltyPayments()).thenReturn(payments);
+        List<PaymentDTO> royaltyPayments = royaltyService.getRoyaltyPayments();
+
+        assertThat("Every DTO is returned", royaltyPayments.size(), is(expectedPayments.size()));
+
+        for (int i=0; i<expectedPayments.size(); i++) {
+            assertEquals(expectedPayments.get(i).getRightsOwner(), royaltyPayments.get(i).getRightsOwner());
+            assertEquals(expectedPayments.get(i).getRightsOwnerId(), royaltyPayments.get(i).getRightsOwnerId());
+            assertEquals(expectedPayments.get(i).getRoyalty(), royaltyPayments.get(i).getRoyalty());
+            assertEquals(expectedPayments.get(i).getViewings(), royaltyPayments.get(i).getViewings());
+        }
+    }
+
+    @Test
+    public void getRoyaltyPaymentsByOwnerId() {
         String rightOwnerId = "rightOwner1";
         String rightOwnerName = "rightOwnerName";
         BigDecimal royalty = new BigDecimal(12.22);
@@ -119,10 +139,10 @@ public class RoyaltyServiceTest {
 
 
     @Test(expected = GUIDNotFoundException.class)
-    public void getRoyaltyPayments_NotFoundException(){
+    public void getRoyaltyPaymentsByOwnerId_NotFoundException(){
 
-        when(paymentDAOMock.getGroupedRoyaltyPayments()).thenThrow(new GUIDNotFoundException(""));
-        royaltyService.getRoyaltyPayments("");
+        when(paymentDAOMock.getGroupedRoyaltyPayments()).thenReturn(null);
+        royaltyService.getRoyaltyPayments(anyString());
     }
 
     private PaymentStudioDTO givenPaymentStudioDTO(String rightOwnerName, BigDecimal royalty, int viewings) {
@@ -131,6 +151,21 @@ public class RoyaltyServiceTest {
                 .royalty(royalty)
                 .viewings(viewings)
                 .build();
+    }
+
+    private List<Payment> givenPayments() {
+        return new ArrayList<Payment>() {{
+            add(new Payment("1", "studio1", new BigDecimal(13.1) ,2));
+            add(new Payment("2", "studio2", new BigDecimal(12), 1));
+
+        }};
+    }
+    private List<PaymentDTO> givenPaymentDTOs() {
+        return new ArrayList<PaymentDTO>() {{
+            add(new PaymentDTO("1", "studio1", new BigDecimal(13.1) ,2));
+            add(new PaymentDTO("2", "studio2", new BigDecimal(12), 1));
+
+        }};
     }
 
     private Payment givenAPayment(String rightOwnerName, BigDecimal royalty, int viewings) {
