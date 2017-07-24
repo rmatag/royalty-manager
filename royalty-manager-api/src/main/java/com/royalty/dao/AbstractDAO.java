@@ -12,4 +12,9 @@ public abstract class AbstractDAO {
     NamedParameterJdbcTemplate jdbcTemplate;
 
     abstract <T> RowMapper<T> getRowMapper();
+
+    public void setJdbdTemplate(NamedParameterJdbcTemplate template) {
+        this.jdbcTemplate = template;
+    }
+
 }

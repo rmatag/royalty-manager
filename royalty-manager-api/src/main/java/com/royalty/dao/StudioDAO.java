@@ -12,7 +12,7 @@ import java.util.Map;
 @Repository
 public class StudioDAO extends AbstractDAO {
 
-    private static final String FIND_ALL_STUDIOS = "SELECT * FROM studios";
+    static final String FIND_ALL_STUDIOS = "SELECT * FROM studios";
 
     public List<Studio> getStudios() {
         Map<String, Object> params = new HashMap<>();

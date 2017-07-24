@@ -10,8 +10,7 @@ import javax.ws.rs.ext.Provider;
 
 @Component
 @Provider
-public class GUIDNotFoundMapper implements
-        ExceptionMapper<GUIDNotFoundException> {
+public class GUIDNotFoundExceptionMapper implements ExceptionMapper<GUIDNotFoundException> {
 
     @Override
     public Response toResponse(GUIDNotFoundException exception)

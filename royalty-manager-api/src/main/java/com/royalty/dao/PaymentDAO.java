@@ -4,6 +4,7 @@ import com.royalty.model.Payment;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.Map;
 
 @Repository
 public class PaymentDAO extends AbstractDAO {
-    private static final String FIND_PAYMENTS_BY_STUDIO =
+    static final String FIND_PAYMENTS_BY_STUDIO =
             "SELECT studios.id, studios.name, SUM(studios.payment) royalty, COUNT(*) viewings \n"
                     + "FROM studios, episodes, viewings \n"
                     + "WHERE \n"
@@ -21,7 +22,7 @@ public class PaymentDAO extends AbstractDAO {
                     + "episodes.id = viewings.episodeId \n"
                     + "GROUP BY studios.id, studios.name";
 
-    private static final String FIND_PAYMENTS_BY_STUDIO_NAME =
+    static final String FIND_PAYMENTS_BY_STUDIO_NAME =
             "SELECT studios.id, studios.name, SUM(studios.payment) royalty, COUNT(*) viewings \n"
                     + "FROM studios, episodes, viewings \n"
                     + "WHERE \n"
@@ -68,6 +69,10 @@ public class PaymentDAO extends AbstractDAO {
                 .royalty(rs.getBigDecimal("royalty"))
                 .viewings(rs.getInt("viewings"))
                 .build();
+    }
+
+    public void setJdbdTemplate(NamedParameterJdbcTemplate template) {
+        this.jdbcTemplate = template;
     }
 
 }

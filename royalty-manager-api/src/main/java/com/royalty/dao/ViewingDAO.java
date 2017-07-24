@@ -9,10 +9,10 @@ import java.util.Map;
 
 @Repository
 public class ViewingDAO extends AbstractDAO {
-    private static final String COUNT_ALL_VIEWINGS = "SELECT COUNT(*) FROM viewings";
-    private static final String FIND_EPISODE_BY_ID = "SELECT COUNT(*) FROM episodes WHERE id = :episodeId";
-    private static final String INSERT_VIEWING = "INSERT INTO viewings (episodeId, userId) VALUES (:episodeId, :userId)";
-    private static final String DELETE_VIEWINGS = "DELETE FROM viewings";
+    static final String COUNT_ALL_VIEWINGS = "SELECT COUNT(*) FROM viewings";
+    static final String FIND_EPISODE_BY_ID = "SELECT COUNT(*) FROM episodes WHERE id = :episodeId";
+    static final String INSERT_VIEWING = "INSERT INTO viewings (episodeId, userId) VALUES (:episodeId, :userId)";
+    static final String DELETE_VIEWINGS = "DELETE FROM viewings";
 
     public void postViewing(String userId, String episodeId) throws GUIDNotFoundException {
         if (!existEpisodeInSystem(episodeId)) {
@@ -20,14 +20,18 @@ public class ViewingDAO extends AbstractDAO {
         }
         insertNewViewing(userId, episodeId);
 
-        System.out.println("number of viewings: " + jdbcTemplate.queryForObject(COUNT_ALL_VIEWINGS, new HashMap<String, Object>(), Integer.class));
+        System.out.println("number of viewings: " + getCurrentNumberOfViewings());
     }
 
     public void reset() {
-        jdbcTemplate.update(DELETE_VIEWINGS, new HashMap<String, Object>());
-        System.out.println("number of viewings: " + jdbcTemplate.queryForObject(COUNT_ALL_VIEWINGS, new HashMap<String, Object>(), Integer.class));
+        jdbcTemplate.update(DELETE_VIEWINGS, new HashMap<>());
+        System.out.println("number of viewings: " + getCurrentNumberOfViewings());
 
 
+    }
+
+    public Integer getCurrentNumberOfViewings() {
+        return jdbcTemplate.queryForObject(COUNT_ALL_VIEWINGS, new HashMap<>(), Integer.class);
     }
 
     private Boolean existEpisodeInSystem(String episodeId) {
