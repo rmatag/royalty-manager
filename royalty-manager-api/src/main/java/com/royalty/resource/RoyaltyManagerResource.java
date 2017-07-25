@@ -11,7 +11,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -65,7 +64,7 @@ public class RoyaltyManagerResource {
     @GET
     @Path("/payments/{rightOwnerId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getRoyaltyPayments(@PathParam("rightOwnerId") @NotNull String rightOwnerId) {
+    public Response getRoyaltyPayments(@PathParam("rightOwnerId") String rightOwnerId) {
         PaymentStudioDTO payments = royaltyService.getRoyaltyPayments(rightOwnerId);
         return Response.ok().entity(payments).build();
     }
