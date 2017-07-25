@@ -1,12 +1,15 @@
 package com.royalty.service;
 
+import com.royalty.dao.EpisodeDAO;
 import com.royalty.dao.PaymentDAO;
 import com.royalty.dao.StudioDAO;
 import com.royalty.dao.ViewingDAO;
+import com.royalty.dto.EpisodeDTO;
 import com.royalty.dto.PaymentDTO;
 import com.royalty.dto.PaymentStudioDTO;
 import com.royalty.dto.StudioDTO;
 import com.royalty.exceptions.GUIDNotFoundException;
+import com.royalty.model.Episode;
 import com.royalty.model.Payment;
 import com.royalty.model.Studio;
 import org.dozer.DozerBeanMapper;
@@ -24,6 +27,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -50,6 +54,9 @@ public class RoyaltyServiceTest {
     @Mock
     private PaymentDAO paymentDAOMock;
 
+    @Mock
+    private EpisodeDAO episodeDAOMock;
+
     @Captor
     private ArgumentCaptor<String> userIdCaptor = ArgumentCaptor.forClass(String.class);
 
@@ -63,6 +70,7 @@ public class RoyaltyServiceTest {
         royaltyService.studioDAO = studioDAOMock;
         royaltyService.viewingDAO = viewingDAOMock;
         royaltyService.paymentDAO = paymentDAOMock;
+        royaltyService.episodeDAO = episodeDAOMock;
     }
 
     @Test
@@ -143,6 +151,29 @@ public class RoyaltyServiceTest {
 
         when(paymentDAOMock.getGroupedRoyaltyPayments()).thenReturn(null);
         royaltyService.getRoyaltyPayments(anyString());
+    }
+
+    @Test
+    public void getEpisodesByStudio() {
+        List<Episode> episodes = givenEpisodes();
+        when(episodeDAOMock.getEpisodesByStudio()).thenReturn(episodes);
+        Map<String, List<EpisodeDTO>> episodesByStudio = royaltyService.getEpisodesByStudio();
+
+        assertThat("Viewings are the expected ones", episodesByStudio.keySet().size(), is(1));
+
+        String studio = episodesByStudio.keySet().iterator().next();
+        List<EpisodeDTO> episodeDTOS = episodesByStudio.get(studio);
+        assertThat("One group by studio", studio, is(episodes.get(0).getStudioName()));
+        assertThat("Number of episodes is the expected one", episodeDTOS.size(), is(2));
+
+    }
+
+    private List<Episode> givenEpisodes() {
+        return new ArrayList<Episode>() {{
+            add(new Episode("studio1", "123", "aaa"));
+            add(new Episode("studio1", "123123", "bbb"));
+
+        }};
     }
 
     private PaymentStudioDTO givenPaymentStudioDTO(String rightOwnerName, BigDecimal royalty, int viewings) {

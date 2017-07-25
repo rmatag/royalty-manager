@@ -1,5 +1,6 @@
 package com.royalty.resource;
 
+import com.royalty.dto.EpisodeDTO;
 import com.royalty.dto.PaymentDTO;
 import com.royalty.dto.PaymentStudioDTO;
 import com.royalty.dto.StudioDTO;
@@ -20,6 +21,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Secured({"ROLE_USER"})
@@ -66,6 +68,15 @@ public class RoyaltyManagerResource {
     public Response getRoyaltyPayments(@PathParam("rightOwnerId") @NotNull String rightOwnerId) {
         PaymentStudioDTO payments = royaltyService.getRoyaltyPayments(rightOwnerId);
         return Response.ok().entity(payments).build();
+    }
+
+    @GET
+    @Path("/episodes")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getEpisodes() {
+        Map<String, List<EpisodeDTO>> episodesByStudio = royaltyService.getEpisodesByStudio();
+
+        return Response.ok().entity(episodesByStudio).build();
     }
 
 }

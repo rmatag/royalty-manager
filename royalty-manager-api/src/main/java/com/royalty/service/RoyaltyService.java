@@ -1,12 +1,15 @@
 package com.royalty.service;
 
+import com.royalty.dao.EpisodeDAO;
 import com.royalty.dao.PaymentDAO;
 import com.royalty.dao.StudioDAO;
 import com.royalty.dao.ViewingDAO;
+import com.royalty.dto.EpisodeDTO;
 import com.royalty.dto.PaymentDTO;
 import com.royalty.dto.PaymentStudioDTO;
 import com.royalty.dto.StudioDTO;
 import com.royalty.exceptions.GUIDNotFoundException;
+import com.royalty.model.Episode;
 import com.royalty.model.Payment;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class RoyaltyService {
@@ -30,13 +35,15 @@ public class RoyaltyService {
     @Autowired
     PaymentDAO paymentDAO;
 
-    public List<StudioDTO> getStudios() {
-        final List<StudioDTO> studioDTOS = new ArrayList<>();
+    @Autowired
+    EpisodeDAO episodeDAO;
 
-        studioDAO.getStudios().stream().forEach(s ->
-            studioDTOS.add(mapper.map(s, StudioDTO.class)
-        ));
-        return studioDTOS;
+    public List<StudioDTO> getStudios() {
+
+        return studioDAO.getStudios()
+                .stream()
+                .map(s -> mapper.map(s, StudioDTO.class))
+                .collect(Collectors.toList());
     }
 
     public void createViewing(String userId, String episodeId) {
@@ -48,12 +55,12 @@ public class RoyaltyService {
     }
 
     public List<PaymentDTO> getRoyaltyPayments() {
-        final List<PaymentDTO> paymentDTOS = new ArrayList<>();
-        paymentDAO.getGroupedRoyaltyPayments().stream().forEach(p ->
-            paymentDTOS.add(mapper.map(p, PaymentDTO.class)
-        ));
 
-        return paymentDTOS;
+        return paymentDAO.getGroupedRoyaltyPayments()
+                .stream()
+                .map(p -> mapper.map(p, PaymentDTO.class))
+                .collect(Collectors.toList());
+
     }
 
     public PaymentStudioDTO getRoyaltyPayments(String rightOwnerId) {
@@ -64,5 +71,17 @@ public class RoyaltyService {
         }
         return mapper.map(payment, PaymentStudioDTO.class);
 
+    }
+
+    public Map<String, List<EpisodeDTO>> getEpisodesByStudio() {
+        List<EpisodeDTO> episodeDTOS = episodeDAO.getEpisodesByStudio()
+                .stream()
+                .map(e -> mapper.map(e, EpisodeDTO.class))
+                .collect(Collectors.toList());
+
+        Map<String, List<EpisodeDTO>> episodesByStudio = episodeDTOS.stream()
+                .collect(Collectors.groupingBy(e -> e.getStudioName()));
+
+        return episodesByStudio;
     }
 }
