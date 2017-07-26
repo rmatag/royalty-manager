@@ -9,6 +9,8 @@
 - Jersey
 - Spring Security
 - Testing: JUnit4, Mockito, Hamcrest
+- Angular CLI for setting up and building the UI project
+- Angular 2 for the UI project
 
 ## Running the app:
 ### API Server
