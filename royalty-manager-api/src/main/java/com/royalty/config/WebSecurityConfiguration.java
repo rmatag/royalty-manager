@@ -44,7 +44,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .requestMatchers(CorsUtils::isCorsRequest).permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic()
-                .and().addFilterBefore(new WebSecurityCorsFilter(), ChannelProcessingFilter.class);
+                .and().csrf().disable()
+                .addFilterBefore(new WebSecurityCorsFilter(), ChannelProcessingFilter.class);
     }
 
     public class WebSecurityCorsFilter implements Filter {
@@ -59,7 +60,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
             res.setHeader("Access-Control-Max-Age", "3600");
-            res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept, x-requested-with, Cache-Control");
+            res.setHeader("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
+            res.setHeader("Access-Control-Expose-Headers", "Location");
             chain.doFilter(request, res);
         }
 

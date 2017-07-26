@@ -8,15 +8,14 @@ import {RoyaltyService} from "./RoyaltyService";
   styleUrls: ['./LoginComponent.css']
 })
 export class LoginComponent {
+  constructor(private royaltyService: RoyaltyService) {}
 
   user: User = new User("", "");
+  errorMsg: String;
 
-  constructor(private royaltyService: RoyaltyService) {}
 
   login() {
     this.royaltyService.login(this.user);
   }
 
-}/**
- * Created by rmata on 7/26/17.
- */
+}

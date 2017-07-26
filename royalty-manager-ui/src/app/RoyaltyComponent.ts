@@ -1,5 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
+import {EpisodeGroup, Payment, RoyaltyService} from "./RoyaltyService";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'royalty',
@@ -10,13 +12,50 @@ import {ActivatedRoute} from "@angular/router";
 
 
 export class RoyaltyComponent implements OnInit {
-  episodes: any;
-  constructor(private route: ActivatedRoute) {}
+  episodesGroup: EpisodeGroup[];
+  payments: Payment[];
+  paymentsByOwnerId: any;
+
+
+  constructor(private route: ActivatedRoute,
+              private royaltyService: RoyaltyService) {}
 
   ngOnInit(): void {
-    this.episodes  = this.route.snapshot.data["episodes"];
-
+    this.episodesGroup = this.route.snapshot.data["episodesGroup"];
+    this.payments = new Array();
+    this.paymentsByOwnerId;
   }
 
+  view(event) {
+    this.royaltyService.postView(event.target.id).subscribe(() => {
 
+    });
+  }
+
+  resetViews() {
+    this.royaltyService.resetViews().subscribe(() => {
+      this.payments = [];
+      this.paymentsByOwnerId = null;
+    });
+  }
+
+  getPayments(event) {
+    this.royaltyService.getPayments(event.target.id).subscribe((res) => {
+        this.paymentsByOwnerId = res;
+    });
+  }
+
+  getAllPayments() {
+    this.royaltyService.getAllPayments().subscribe((res) => {
+      this.payments = res;
+    });
+  }
+
+  existPayments() : boolean {
+    return this.payments.length > 0;
+  }
+
+  existPaymentsByOwnerId(): boolean {
+    return this.paymentsByOwnerId;
+  }
 }

@@ -1,6 +1,7 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {User} from "./User";
 import {RoyaltyService} from "./RoyaltyService";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -9,12 +10,5 @@ import {RoyaltyService} from "./RoyaltyService";
 })
 export class AppComponent {
 
-  user: User = new User("", "");
-
-  constructor(private royaltyService: RoyaltyService) {}
-
-  login() {
-    this.royaltyService.login(this.user);
-  }
 
 }

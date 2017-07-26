@@ -1,0 +1,17 @@
+:host .paymentTableContainer {
+  width: 50%;
+  text-align: center;
+  margin-top: 10px;
+
+}
+
+:host .paymentTable {
+  margin: 0 auto;
+  text-align: center;
+}
+
+:host .episodesTableContainer {
+  float: left;
+  width: 25%;
+  text-align: center;
+}

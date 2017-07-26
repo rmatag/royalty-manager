@@ -15,7 +15,7 @@ import java.util.Map;
 public class EpisodeDAO extends AbstractDAO {
 
     static final String FIND_EPISODES_BY_STUDIO =
-            "SELECT studios.name studio, episodes.id, episodes.name\n"
+            "SELECT studios.id studioId, studios.name studioName, episodes.id, episodes.name\n"
                     + "FROM\n"
                     + "studios,\n"
                     + "episodes\n"
@@ -42,7 +42,8 @@ public class EpisodeDAO extends AbstractDAO {
         return (rs, rowNum) -> Episode.builder()
                 .id(rs.getString("id"))
                 .name(rs.getString("name"))
-                .studioName(rs.getString("studio"))
+                .studioName(rs.getString("studioName"))
+                .studioId(rs.getString("studioId"))
                 .build();
     }
 }

@@ -5,6 +5,7 @@ import com.royalty.dao.PaymentDAO;
 import com.royalty.dao.StudioDAO;
 import com.royalty.dao.ViewingDAO;
 import com.royalty.dto.EpisodeDTO;
+import com.royalty.dto.EpisodesGroupDTO;
 import com.royalty.dto.PaymentDTO;
 import com.royalty.dto.PaymentStudioDTO;
 import com.royalty.dto.StudioDTO;
@@ -73,10 +74,18 @@ public class RoyaltyService {
 
     }
 
-    public List<EpisodeDTO> getEpisodesByStudio() {
-        return episodeDAO.getEpisodesByStudio()
+    public List<EpisodesGroupDTO> getEpisodesByStudio() {
+        List<EpisodeDTO> episodeDTOS = episodeDAO.getEpisodesByStudio()
                 .stream()
                 .map(e -> mapper.map(e, EpisodeDTO.class))
+                .collect(Collectors.toList());
+
+        Map<String, List<EpisodeDTO>> episodesByStudio = episodeDTOS.stream()
+                .collect(Collectors.groupingBy(e -> e.getStudioName()));
+
+        return episodesByStudio.keySet().stream()
+                .map((String s) -> new EpisodesGroupDTO(episodesByStudio.get(s).get(0).getStudioId(), s,
+                        episodesByStudio.get(s)))
                 .collect(Collectors.toList());
     }
 }

@@ -2,6 +2,7 @@ import {Routes} from "@angular/router";
 import {RoyaltyComponent} from "./RoyaltyComponent";
 import {RoyaltyResolver} from "./RoyaltyResolver";
 import {LoginComponent} from "./LoginComponent";
+import {ErrorComponent} from "./ErrorComponent";
 
 export const routes: Routes = [
   {
@@ -17,7 +18,11 @@ export const routes: Routes = [
   {
     path: "royalty",
     component: RoyaltyComponent,
-    resolve: {episodes: RoyaltyResolver}
+    resolve: {episodesGroup: RoyaltyResolver}
+  },
+  {
+    path: "error",
+    component: ErrorComponent
   }
 
 ];

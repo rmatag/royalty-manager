@@ -1,18 +1,19 @@
-package com.royalty.model;
+package com.royalty.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class Episode {
+@NoArgsConstructor
+public class EpisodesGroupDTO {
 
     String studioId;
     String studioName;
-    String id;
-    String name;
+    List<EpisodeDTO> episodes;
 }

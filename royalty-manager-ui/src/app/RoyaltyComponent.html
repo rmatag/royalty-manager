@@ -1,6 +1,66 @@
 <div>
-  <span>Eyyy Royalty</span>
+  <button style="float: right" id="allPayments" (click)="getAllPayments()">Get All Payments</button>
+  <button style="float: right" id="reset" (click)="resetViews()">Reset Views</button>
 </div>
-<router-outlet></router-outlet>
+
+<div *ngFor="let episodeGroup of episodesGroup" class="episodesTableContainer">
+  <h2>{{episodeGroup.studioName}}</h2>
+  <table class="paymentTable">
+    <tbody>
+    <tr *ngFor="let episode of episodeGroup.episodes">
+      <td>{{episode.name}}</td>
+      <td>
+        <button id="{{episode.id}}" (click)="view($event)">View</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <button id="{{episodeGroup.studioId}}" (click)="getPayments($event)">Get Payments</button>
+</div>
+
+<div *ngIf="existPaymentsByOwnerId()">
+  <div class="paymentTableContainer" style="float: left">
+    <h3>Viewings</h3>
+    <table class="paymentTable">
+      <tbody>
+      <tr>
+        <th>Rights Owner</th>
+        <th>Royalty</th>
+        <th>Viewings</th>
+      </tr>
+      <tr>
+        <td>{{paymentsByOwnerId.rightsOwner}}</td>
+        <td>{{paymentsByOwnerId.royalty}}</td>
+        <td>{{paymentsByOwnerId.viewings}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div *ngIf="existPayments()">
+  <div class="paymentTableContainer" style="float: right">
+    <h3>All Right owners' payments summary</h3>
+    <table class="paymentTable">
+      <tbody>
+      <tr>
+        <th>Right Owner</th>
+        <th>Royalty</th>
+        <th>TotalViewings</th>
+      </tr>
+      <tr *ngFor="let payment of payments">
+        <td>{{payment.rightsOwner}}</td>
+        <td>{{payment.royalty}}</td>
+        <td>{{payment.viewings}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+
 
 

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EpisodeDTO {
 
+    String studioId;
     String studioName;
     String id;
     String name;

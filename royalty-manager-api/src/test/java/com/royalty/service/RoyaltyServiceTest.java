@@ -5,6 +5,7 @@ import com.royalty.dao.PaymentDAO;
 import com.royalty.dao.StudioDAO;
 import com.royalty.dao.ViewingDAO;
 import com.royalty.dto.EpisodeDTO;
+import com.royalty.dto.EpisodesGroupDTO;
 import com.royalty.dto.PaymentDTO;
 import com.royalty.dto.PaymentStudioDTO;
 import com.royalty.dto.StudioDTO;
@@ -157,14 +158,14 @@ public class RoyaltyServiceTest {
     public void getEpisodesByStudio() {
         List<Episode> episodes = givenEpisodes();
         when(episodeDAOMock.getEpisodesByStudio()).thenReturn(episodes);
-        Map<String, List<EpisodeDTO>> episodesByStudio = royaltyService.getEpisodesByStudio();
+       List<EpisodesGroupDTO> episodesByStudio = royaltyService.getEpisodesByStudio();
 
-        assertThat("Viewings are the expected ones", episodesByStudio.keySet().size(), is(1));
+        assertThat("Viewings are the expected ones", episodesByStudio.size(), is(1));
 
-        String studio = episodesByStudio.keySet().iterator().next();
-        List<EpisodeDTO> episodeDTOS = episodesByStudio.get(studio);
-        assertThat("One group by studio", studio, is(episodes.get(0).getStudioName()));
+
+        List<EpisodeDTO> episodeDTOS = episodesByStudio.get(0).getEpisodes();
         assertThat("Number of episodes is the expected one", episodeDTOS.size(), is(2));
+        assertThat("One group by studio", episodeDTOS.get(0).getStudioName(), is(episodes.get(0).getStudioName()));
 
     }
 

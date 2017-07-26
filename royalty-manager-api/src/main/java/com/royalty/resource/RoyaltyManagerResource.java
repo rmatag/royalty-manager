@@ -1,6 +1,7 @@
 package com.royalty.resource;
 
 import com.royalty.dto.EpisodeDTO;
+import com.royalty.dto.EpisodesGroupDTO;
 import com.royalty.dto.PaymentDTO;
 import com.royalty.dto.PaymentStudioDTO;
 import com.royalty.dto.StudioDTO;
@@ -73,7 +74,7 @@ public class RoyaltyManagerResource {
     @Path("/episodes")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getEpisodes() {
-        List<EpisodeDTO> episodesByStudio = royaltyService.getEpisodesByStudio();
+        List<EpisodesGroupDTO> episodesByStudio = royaltyService.getEpisodesByStudio();
         return Response.ok().entity(episodesByStudio).build();
     }
 
