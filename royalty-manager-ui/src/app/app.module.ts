@@ -3,20 +3,30 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { RoyaltyService } from "./RoyaltyService";
+import {RouterModule} from "@angular/router";
+import {routes} from "./Routes";
+import {RoyaltyComponent} from "./RoyaltyComponent";
+
 import { AppComponent } from './app.component';
-import { PaymentsService } from "./PaymentsService";
+import {RoyaltyResolver} from "./RoyaltyResolver";
+import {LoginComponent} from "./LoginComponent";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    RoyaltyComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [
-    PaymentsService
+    RoyaltyService,
+    RoyaltyResolver
   ],
   bootstrap: [AppComponent]
 })

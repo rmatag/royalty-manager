@@ -73,15 +73,10 @@ public class RoyaltyService {
 
     }
 
-    public Map<String, List<EpisodeDTO>> getEpisodesByStudio() {
-        List<EpisodeDTO> episodeDTOS = episodeDAO.getEpisodesByStudio()
+    public List<EpisodeDTO> getEpisodesByStudio() {
+        return episodeDAO.getEpisodesByStudio()
                 .stream()
                 .map(e -> mapper.map(e, EpisodeDTO.class))
                 .collect(Collectors.toList());
-
-        Map<String, List<EpisodeDTO>> episodesByStudio = episodeDTOS.stream()
-                .collect(Collectors.groupingBy(e -> e.getStudioName()));
-
-        return episodesByStudio;
     }
 }

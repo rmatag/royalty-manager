@@ -3,11 +3,11 @@ import {User} from "./User";
 import {RoyaltyService} from "./RoyaltyService";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'login',
+  templateUrl: './LoginComponent.html',
+  styleUrls: ['./LoginComponent.css']
 })
-export class AppComponent {
+export class LoginComponent {
 
   user: User = new User("", "");
 
@@ -17,4 +17,6 @@ export class AppComponent {
     this.royaltyService.login(this.user);
   }
 
-}
+}/**
+ * Created by rmata on 7/26/17.
+ */

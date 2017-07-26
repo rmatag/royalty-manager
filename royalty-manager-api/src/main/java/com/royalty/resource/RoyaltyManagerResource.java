@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -23,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-@Secured({"ROLE_USER"})
 @Path("/royaltymanager")
 public class RoyaltyManagerResource {
 
@@ -73,8 +73,7 @@ public class RoyaltyManagerResource {
     @Path("/episodes")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getEpisodes() {
-        Map<String, List<EpisodeDTO>> episodesByStudio = royaltyService.getEpisodesByStudio();
-
+        List<EpisodeDTO> episodesByStudio = royaltyService.getEpisodesByStudio();
         return Response.ok().entity(episodesByStudio).build();
     }
 

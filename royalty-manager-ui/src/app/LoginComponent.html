@@ -1,0 +1,21 @@
+<div>
+  <div>
+    <div>
+      Welcome
+    </div>
+    <div>
+      <input [(ngModel)]="user.user" id="user">
+      <label for="user">User</label>
+    </div>
+    <div class="row">
+      <div>
+        <input [(ngModel)]="user.password" id="password"
+               type="password" class="validate">
+        <label for="password">Password</label>
+      </div>
+    </div>
+
+    <span>{{errorMsg}}</span>
+    <button (click)="login()" type="submit" name="action">Login</button>
+  </div>
+</div>
