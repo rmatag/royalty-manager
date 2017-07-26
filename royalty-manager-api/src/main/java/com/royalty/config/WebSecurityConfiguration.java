@@ -6,10 +6,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.web.cors.CorsUtils;
 
@@ -21,32 +18,23 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private static final String[] ALLOWED_USERS = { "user" };
-
-    private static final String PASSWORD = "user";
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return username -> {
-
-            if (Arrays.asList(ALLOWED_USERS).contains(username)) {
-                return new User(username, PASSWORD, true, true, true, true,
-                        AuthorityUtils.createAuthorityList("ROLE_USER"));
-            } else {
-                throw new UsernameNotFoundException("The user is not allowed: '" + username + "'");
-            }
-        };
-    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService());
+        auth.inMemoryAuthentication()
+                .withUser("user").password("user").roles("USER")
+                .and()
+                .withUser("admin").password("admin").roles("USER", "ADMIN");
+    }
+
+    @Bean
+    @Override
+    public UserDetailsService userDetailsServiceBean() throws Exception {
+        return super.userDetailsServiceBean();
     }
 
     @Override
