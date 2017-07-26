@@ -2,20 +2,23 @@
 
 ## Frameworks and tools used:
 - IntelliJ IDEA
-- Maven
+- Maven 3.5.0
 - Spring Boot
-- 
-- 
-- Testing: JUnit4, Mockito&PowerMock, Hamcrest
+- Dozer Mapping
+- H2 in memory DB
+- Jersey
+- Spring Security
+- Testing: JUnit4, Mockito, Hamcrest
 
 ## Running the app:
 ### API Server
 - By using Spring Boot Maven plugin: mvn spring-boot:run
 
 ## UI App
-- By angular-cli ngxxxxxxxx
+- By angular-cli: ng sever (Make sure to install by npm install -g angular-cli)
 
 
-## Possible improvements:
-- Use JPA and hibernate for Tranactionality and Database Mapping
+## Improvements:
+- Use JPA and hibernate for transactionality and Database Mapping
+- Test FE by Jasmine framework
 - API tests and E2E by any framkework such as JBehave
