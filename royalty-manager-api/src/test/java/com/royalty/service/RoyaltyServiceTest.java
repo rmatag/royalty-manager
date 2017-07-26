@@ -28,7 +28,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -161,8 +160,6 @@ public class RoyaltyServiceTest {
        List<EpisodesGroupDTO> episodesByStudio = royaltyService.getEpisodesByStudio();
 
         assertThat("Viewings are the expected ones", episodesByStudio.size(), is(1));
-
-
         List<EpisodeDTO> episodeDTOS = episodesByStudio.get(0).getEpisodes();
         assertThat("Number of episodes is the expected one", episodeDTOS.size(), is(2));
         assertThat("One group by studio", episodeDTOS.get(0).getStudioName(), is(episodes.get(0).getStudioName()));
@@ -171,8 +168,8 @@ public class RoyaltyServiceTest {
 
     private List<Episode> givenEpisodes() {
         return new ArrayList<Episode>() {{
-            add(new Episode("studio1", "123", "aaa"));
-            add(new Episode("studio1", "123123", "bbb"));
+            add(new Episode("13", "studio1", "123", "aaa"));
+            add(new Episode("13", "studio1", "123123", "bbb"));
 
         }};
     }
