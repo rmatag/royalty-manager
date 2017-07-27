@@ -5,6 +5,7 @@ import 'rxjs/add/operator/catch';
 import {Injectable} from "@angular/core";
 import {User} from "./User";
 import {Router} from "@angular/router";
+import 'rxjs/add/observable/of';
 
 const HOST = "http://localhost:8080/royaltymanager";
 
@@ -34,10 +35,9 @@ export class RoyaltyService {
   constructor(private http: Http,
               private router: Router) {}
 
-  public login(user: User) {
+  public login(user: User): Observable<any> {
     this.loggedUser = user;
-    this.router.navigate(["royalty"]);
-
+    return this.http.post(HOST + "/fakeLogin", {user: user.user, password: user.password}, this.getCredentials());
   }
 
   public getAllEpisodes(): Observable<EpisodeGroup[]> {

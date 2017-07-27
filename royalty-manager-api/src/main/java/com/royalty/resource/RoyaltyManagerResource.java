@@ -5,6 +5,7 @@ import com.royalty.dto.EpisodesGroupDTO;
 import com.royalty.dto.PaymentDTO;
 import com.royalty.dto.PaymentStudioDTO;
 import com.royalty.dto.StudioDTO;
+import com.royalty.dto.UserDTO;
 import com.royalty.dto.ViewingRequestDTO;
 import com.royalty.service.RoyaltyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,13 @@ public class RoyaltyManagerResource {
 
     @Autowired
     RoyaltyService royaltyService;
+
+    @POST
+    @Path("/fakeLogin")
+    public Response fakeLogin(UserDTO user) {
+
+        return Response.accepted().build();
+    }
 
     @GET
     @Path("/studios")

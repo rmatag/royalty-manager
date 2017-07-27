@@ -28,7 +28,7 @@ export class RoyaltyComponent implements OnInit {
 
   view(event) {
     this.royaltyService.postView(event.target.id).subscribe(() => {
-
+        // Nice to show a Successful notification
     });
   }
 
