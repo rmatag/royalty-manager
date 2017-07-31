@@ -16,14 +16,15 @@
 ### API Server
 - By using Spring Boot Maven plugin: mvn spring-boot:run
 
-## UI App
+### UI App
 - By angular-cli: ng sever (Make sure to install by npm install -g angular-cli)
 - Access to http://localhost:4200
 
 
 ## Improvements:
 ### Backend
-- Use JPA and hibernate for transactionality and Database Mapping
+- Use JPA and hibernate for transactionality and Database Mapping 
+(Would need to be evaluated in case of evolving the app)
 
 ### FrontEnd
 - Packaging for the royalty-manager-ui module
